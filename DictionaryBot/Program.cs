@@ -16,6 +16,7 @@ DiscordClient client = new(new DiscordConfiguration()
 });
 
 client.MessageCreated += DictionaryEventHandler.MessageCreated;
+client.GuildDownloadCompleted += DictionaryEventHandler.GuildDownloadCompleted;
 
 await client.ConnectAsync(new DiscordActivity("with words"));
 
