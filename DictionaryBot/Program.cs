@@ -1,5 +1,6 @@
 ﻿using DictionaryBot.EventHandlers;
 using DSharpPlus;
+using DSharpPlus.Entities;
 
 #if DEBUG
 foreach (var line in File.ReadAllLines("settings.env"))
@@ -11,11 +12,11 @@ foreach (var line in File.ReadAllLines("settings.env"))
 DiscordClient client = new(new DiscordConfiguration()
 {
     Token = Environment.GetEnvironmentVariable("DISCORD_TOKEN") ?? throw new Exception("Please set DISCORD_TOKEN EnvVar!"),
-    Intents = DiscordIntents.MessageContents
+    Intents = DiscordIntents.MessageContents | DiscordIntents.GuildMessages
 });
 
 client.MessageCreated += DictionaryEventHandler.MessageCreated;
 
-await client.ConnectAsync();
+await client.ConnectAsync(new DiscordActivity("with words"));
 
 await Task.Delay(-1);

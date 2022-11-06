@@ -11,4 +11,10 @@
     <PackageReference Include="DSharpPlus" Version="4.3.0-nightly-01182" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="settings.env">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
