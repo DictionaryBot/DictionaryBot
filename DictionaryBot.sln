@@ -5,6 +5,10 @@ VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DictionaryBot", "DictionaryBot\DictionaryBot.csproj", "{68CAE9DC-52AB-4F36-8664-7F270CAE76B7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DictionaryApiAccess", "DictionaryApiAccess\DictionaryApiAccess.csproj", "{2A7D9458-AAC0-4B31-8887-702A42C71AA6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseAccess", "DatabaseAccess\DatabaseAccess.csproj", "{613BBC78-6883-4021-8D30-A1D5810D2099}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{68CAE9DC-52AB-4F36-8664-7F270CAE76B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68CAE9DC-52AB-4F36-8664-7F270CAE76B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68CAE9DC-52AB-4F36-8664-7F270CAE76B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A7D9458-AAC0-4B31-8887-702A42C71AA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A7D9458-AAC0-4B31-8887-702A42C71AA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A7D9458-AAC0-4B31-8887-702A42C71AA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A7D9458-AAC0-4B31-8887-702A42C71AA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{613BBC78-6883-4021-8D30-A1D5810D2099}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{613BBC78-6883-4021-8D30-A1D5810D2099}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{613BBC78-6883-4021-8D30-A1D5810D2099}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{613BBC78-6883-4021-8D30-A1D5810D2099}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
