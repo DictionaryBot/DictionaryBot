@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DatabaseAccess.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20221106220332_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20221107215203_AddGuildModel")]
+    partial class AddGuildModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,13 +23,16 @@ namespace DatabaseAccess.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("DatabaseAccess.DictionaryEntry", b =>
+            modelBuilder.Entity("DatabaseAccess.Models.DictionaryEntry", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<decimal>("GuildId")
+                        .HasColumnType("decimal(20,0)");
 
                     b.Property<string>("Word")
                         .IsRequired()
@@ -38,6 +41,19 @@ namespace DatabaseAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DictionaryEntries");
+                });
+
+            modelBuilder.Entity("DatabaseAccess.Models.Guild", b =>
+                {
+                    b.Property<decimal>("Id")
+                        .HasColumnType("decimal(20,0)");
+
+                    b.Property<decimal?>("DictionaryGameChannel")
+                        .HasColumnType("decimal(20,0)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Guilds");
                 });
 #pragma warning restore 612, 618
         }
