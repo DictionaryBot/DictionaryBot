@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DatabaseAccess\DatabaseAccess.csproj" />
+    <ProjectReference Include="..\DictionaryApiAccess\DictionaryApiAccess.csproj" />
   </ItemGroup>
 
   <ItemGroup>

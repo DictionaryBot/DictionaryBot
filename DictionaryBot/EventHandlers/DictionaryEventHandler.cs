@@ -1,5 +1,6 @@
 ﻿using DatabaseAccess.DbContext;
 using DatabaseAccess.Models;
+using DictionaryApiAccess;
 using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
@@ -38,7 +39,7 @@ namespace DictionaryBot.EventHandlers
             return Task.CompletedTask;
         }
 
-        internal static Task MessageCreated(DiscordClient sender, MessageCreateEventArgs e)
+        internal static Task MessageCreated(DiscordClient _1, MessageCreateEventArgs e)
         {
             _ = Task.Run(async () =>
             {
@@ -66,13 +67,21 @@ namespace DictionaryBot.EventHandlers
                     {
                         await e.Message.DeleteAsync(); //delete message
                         var msg = await e.Channel.SendMessageAsync($"{e.Author.Mention} the word {e.Message.Content.Trim()} does not start with an {_lastWordCache.Last()}!"); //inform user that chars have to match
-                        await Task.Delay(2000); //wait twp seconds (i hope)
+                        await Task.Delay(2000); //wait two seconds (i hope)
                         await msg.DeleteAsync(); //delete information again
                         return;
                     }
                 }
 
-                //validate word (https://dictionaryapi.dev/) ??? maybe find another way to do that, during development this api had some DNS issues
+                var wordModel = await ApiAccess.IsWordValid(e.Message.Content);
+                if (!wordModel)
+                {
+                    await e.Message.DeleteAsync(); //delete message
+                    var msg = await e.Channel.SendMessageAsync($"{e.Author.Mention} the \"word\" {e.Message.Content.Trim()} has not been found in the dictionary!"); //inform user that word was not found
+                    await Task.Delay(2000); //wait two seconds (i hope)
+                    await msg.DeleteAsync(); //delete information again
+                    return;
+                }
 
                 if (db.DictionaryEntries.Any(x => x.Word == e.Message.Content.Trim())) //if word is present in db
                 {
