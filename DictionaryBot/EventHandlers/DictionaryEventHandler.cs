@@ -10,6 +10,7 @@ namespace DictionaryBot.EventHandlers
     internal class DictionaryEventHandler
     {
         private static string _lastWordCache = "";
+        private static ulong _lastUserCache = 0;
 
         internal static Task GuildAvailable(DiscordClient sender, GuildCreateEventArgs e)
         {
@@ -34,7 +35,9 @@ namespace DictionaryBot.EventHandlers
                 //cache last (hopefully) valid message
                 var channel = e.Guild.GetChannel((ulong)channelId);
                 var messages = await channel.GetMessagesAsync(20);
-                _lastWordCache = messages.First(x => !x.Content.Trim().StartsWith(".")).Content.Trim();
+                var message = messages.First(x => !x.Content.Trim().StartsWith("."));
+                _lastWordCache = message.Content.Trim();
+                _lastUserCache = message.Author.Id;
             });
             return Task.CompletedTask;
         }
@@ -62,7 +65,9 @@ namespace DictionaryBot.EventHandlers
                 //cache last (hopefully) valid message
                 var channel = e.Guild.GetChannel((ulong)channelId);
                 var messages = await channel.GetMessagesAsync(20);
-                _lastWordCache = messages.First(x => !x.Content.Trim().StartsWith(".")).Content.Trim();
+                var message = messages.First(x => !x.Content.Trim().StartsWith("."));
+                _lastWordCache = message.Content.Trim();
+                _lastUserCache = message.Author.Id;
             });
             return Task.CompletedTask;
         }
@@ -77,6 +82,16 @@ namespace DictionaryBot.EventHandlers
                 using DatabaseContext db = new();
                 if (e.Channel.Id != db.Guilds.Find(e.Guild.Id)?.DictionaryGameChannel)
                     return;
+
+                if (e.Message.Author.Id == _lastUserCache)
+                {
+                    await e.Message.DeleteAsync(); //delete message
+                    var msg = await e.Channel.SendMessageAsync($"{e.Author.Mention} wait for someone else to send a message!"); //inform user that he has to wait 
+                    await Task.Delay(2000); //wait two seconds (i hope)
+                    await msg.DeleteAsync(); //delete information again
+                    return;
+                }
+
 
                 if (e.Message.Content.StartsWith("."))
                     return;
