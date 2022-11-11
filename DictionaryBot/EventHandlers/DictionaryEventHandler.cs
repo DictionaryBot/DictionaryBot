@@ -78,10 +78,12 @@ namespace DictionaryBot.EventHandlers
             {
                 if (e.Author.IsBot)
                     return;
-
+                if (e.Message.Content.StartsWith("."))
+                    return;
                 using DatabaseContext db = new();
                 if (e.Channel.Id != db.Guilds.Find(e.Guild.Id)?.DictionaryGameChannel)
                     return;
+
 
                 if (e.Message.Author.Id == _lastUserCache)
                 {
@@ -92,9 +94,6 @@ namespace DictionaryBot.EventHandlers
                     return;
                 }
 
-
-                if (e.Message.Content.StartsWith("."))
-                    return;
                 if (e.Message.Content.Trim().IndexOf(' ') != -1) //check for spaces in the message, if there are none move on
                 {
                     await e.Message.DeleteAsync(); //delete message
