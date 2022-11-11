@@ -141,6 +141,7 @@ namespace DictionaryBot.EventHandlers
                 db.SaveChanges();
 
                 _lastWordCache = e.Message.Content.Trim(); //populate cache
+                _lastUserCache = e.Message.Author.Id;
             });
             return Task.CompletedTask;
         }
