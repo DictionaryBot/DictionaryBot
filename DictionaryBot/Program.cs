@@ -20,6 +20,7 @@ DiscordClient client = new(new DiscordConfiguration()
 
 client.MessageCreated += DictionaryEventHandler.MessageCreated;
 client.GuildAvailable+= DictionaryEventHandler.GuildAvailable;
+client.GuildCreated += DictionaryEventHandler.GuildCreated;
 
 var slashCommands = client.UseSlashCommands();
 

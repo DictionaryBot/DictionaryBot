@@ -20,6 +20,34 @@ namespace DictionaryBot.EventHandlers
                 var dbGuild = db.Guilds.Find(e.Guild.Id);
                 if (dbGuild is null)
                 {
+                    //create guilds in db if not already present
+                    db.Add(new Guild() { Id = e.Guild.Id });
+                    db.SaveChanges();
+                    return;
+                }
+
+                //find guild dict game channel
+                var channelId = dbGuild?.DictionaryGameChannel;
+                if (channelId is null)
+                    return;
+
+                //cache last (hopefully) valid message
+                var channel = e.Guild.GetChannel((ulong)channelId);
+                var messages = await channel.GetMessagesAsync(20);
+                _lastWordCache = messages.First(x => !x.Content.Trim().StartsWith(".")).Content.Trim();
+            });
+            return Task.CompletedTask;
+        }
+
+        internal static Task GuildCreated(DiscordClient sender, GuildCreateEventArgs e)
+        {
+            _ = Task.Run(async () =>
+            {
+                using DatabaseContext db = new();
+
+                var dbGuild = db.Guilds.Find(e.Guild.Id);
+                if (dbGuild is null)
+                {
                     //create guilds in db on join
                     db.Add(new Guild() { Id = e.Guild.Id });
                     db.SaveChanges();
