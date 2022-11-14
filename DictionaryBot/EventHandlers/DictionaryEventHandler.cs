@@ -105,7 +105,7 @@ namespace DictionaryBot.EventHandlers
 
                 if (!string.IsNullOrWhiteSpace(_lastWordCache))
                 {
-                    if (!e.Message.Content.Trim().StartsWith(_lastWordCache.Last()))
+                    if (!e.Message.Content.Trim().ToLower().StartsWith(_lastWordCache.ToLower().Last()))
                     {
                         await e.Message.DeleteAsync(); //delete message
                         var msg = await e.Channel.SendMessageAsync($"{e.Author.Mention} the word {e.Message.Content.Trim()} does not start with an {_lastWordCache.Last()}!"); //inform user that chars have to match
