@@ -3,6 +3,7 @@ using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.SlashCommands;
 using System.Reflection;
+using UptimeKumaHeartbeat;
 using ErrorEventHandler = DictionaryBot.EventHandlers.ErrorEventHandler;
 
 #if DEBUG
@@ -33,4 +34,12 @@ slashCommands.RegisterCommands(Assembly.GetExecutingAssembly());
 
 await client.ConnectAsync(new DiscordActivity("with words"));
 
+var useKuma = Environment.GetEnvironmentVariable("USE_UPTIMEKUMA");
+if (useKuma is not null && bool.Parse(useKuma))
+{
+    var heartbeatData = new HeartbeatData("", "");
+    var heartbeatManager = new HeartbeatManager();
+    await heartbeatManager.StartHeartbeatsAsync(Environment.GetEnvironmentVariable("UPTIMEKUMA_URL") ?? throw new Exception("Please set UPTIMEKUMA_URL EnvVar!"), heartbeatData);
+
+}
 await Task.Delay(-1);
