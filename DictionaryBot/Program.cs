@@ -1,11 +1,10 @@
 ﻿using DictionaryBot.EventHandlers;
 using DSharpPlus;
-using DSharpPlus.Entities;
 using DSharpPlus.Commands;
+using Microsoft.Extensions.Logging;
 using System.Reflection;
 using UptimeKumaHeartbeat;
 using ErrorEventHandler = DictionaryBot.EventHandlers.ErrorEventHandler;
-using Microsoft.Extensions.Logging;
 
 #if DEBUG
 foreach (var line in File.ReadAllLines("settings.env"))
@@ -14,12 +13,12 @@ foreach (var line in File.ReadAllLines("settings.env"))
 }
 #endif
 
-DiscordClientBuilder.CreateDefault(
+DiscordClient client = DiscordClientBuilder.CreateDefault(
     Environment.GetEnvironmentVariable("DISCORD_TOKEN") ?? throw new Exception("Please set DISCORD_TOKEN EnvVar!"),
     DiscordIntents.MessageContents | DiscordIntents.GuildMessages | DiscordIntents.Guilds
 )
     .SetLogLevel(LogLevel.Debug)
-    .ConfigureEventHandlers(b => 
+    .ConfigureEventHandlers(b =>
         b.HandleMessageCreated(DictionaryEventHandler.MessageCreated)
         .HandleGuildAvailable(DictionaryEventHandler.GuildAvailable)
         .HandleGuildCreated(DictionaryEventHandler.GuildCreated)
@@ -35,6 +34,8 @@ DiscordClientBuilder.CreateDefault(
         UseDefaultCommandErrorHandler = false
     })
     .Build();
+
+await client.ConnectAsync();
 
 var useKuma = Environment.GetEnvironmentVariable("USE_UPTIMEKUMA");
 if (useKuma is not null && bool.Parse(useKuma))
