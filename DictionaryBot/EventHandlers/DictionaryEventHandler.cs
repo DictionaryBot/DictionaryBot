@@ -112,7 +112,7 @@ namespace DictionaryBot.EventHandlers
                     if (!e.Message.Content.Trim().ToLower().StartsWith(_lastWordCache[e.Guild.Id].ToLower().Last()))
                     {
                         await e.Message.DeleteAsync(); //delete message
-                        var msg = await e.Channel.SendMessageAsync($"{e.Author.Mention} the word {e.Message.Content.Trim()} does not start with an {_lastWordCache.Last()}!"); //inform user that chars have to match
+                        var msg = await e.Channel.SendMessageAsync($"{e.Author.Mention} the word {e.Message.Content.Trim()} does not start with an {_lastWordCache[e.Guild.Id].Last()}!"); //inform user that chars have to match
                         await Task.Delay(2000); //wait two seconds (i hope)
                         await msg.DeleteAsync(); //delete information again
                         return;
